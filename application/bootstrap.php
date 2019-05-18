@@ -174,6 +174,6 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'action'     => 'index',
 	]);
 
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$protocol = getenv('PROTOCOL');
 define('REDIRECT_URL',$protocol.getenv('SERVERNAME')."/redirect");
 define('WEBHOOK_URL',$protocol."helloworldpeople.xyz/events/webhook");
