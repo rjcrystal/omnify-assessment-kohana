@@ -34,7 +34,7 @@ class Model_GoogleUser extends ORM
 
         try{
             $response = $client->request('POST', 'https://www.googleapis.com/calendar/v3/calendars/primary/events/watch', [
-                'form_params' => [
+                'json' => [
                     'id' => $this->get_guid(),
                     'type' => 'web_hook',
                     'address'=> WEBHOOK_URL,
