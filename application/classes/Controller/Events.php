@@ -21,7 +21,6 @@ class Controller_Events extends Controller {
         $google_user_id = $session->get('id');
         if(!empty($google_user_id))
         {
-
             $user = ORM::factory('GoogleUser')
                 ->where('google_id', '=', $google_user_id)
                 ->find();
@@ -39,7 +38,25 @@ class Controller_Events extends Controller {
             $this->response->body(View::factory('error')->set('message',"Failed to get events, try logging in again"));
         }
     }
-    public function webhook_receive(){
 
+    public function action_webhook()
+    {
+        $headers = getallheaders();
+        $resource_id = $headers['X-Goog-Resource-Id'];
+        $state = $headers['X-Goog-Resource-State'];
+        $log = Log::instance();
+        $log->add(Log::INFO,$headers);
+        if(!empty($resource_id) && $state=='exists')
+        {
+            $user = ORM::factory('GoogleUser')
+                ->where('resource_id', '=', $resource_id)
+                ->where('needs_events_refresh', '=', 0)
+                ->find();
+            if($user->loaded())
+            {
+                $user->set('needs_events_refresh',1);
+                $user->save();
+            }
+        }
     }
 }

@@ -135,7 +135,7 @@ Kohana::modules([
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	 'database'   => MODPATH.'database',   // Database access
 	// 'image'      => MODPATH.'image',      // Image manipulation
-	// 'minion'     => MODPATH.'minion',     // CLI Tasks
+	 'minion'     => MODPATH.'minion',     // CLI Tasks
 	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'pagination' => MODPATH.'pagination', // Pagination
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
@@ -174,5 +174,5 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'action'     => 'index',
 	]);
 
-define('REDIRECT_URL',"http://$_SERVER[SERVER_NAME]/redirect");
+define('REDIRECT_URL',"http://".getenv('SERVERNAME')."/redirect");
 define('WEBHOOK_URL',"https://helloworldpeople.xyz/events/webhook");

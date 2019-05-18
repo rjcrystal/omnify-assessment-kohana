@@ -44,7 +44,8 @@ class Model_GoogleUser extends ORM
             $this->set('resource_id',$body['resourceId']);
             $this->save();
         }
-        echo print_r($response->getBody());
+        $log = Log::instance();
+        $log->add(Log::INFO,json_encode($response->getBody()));
     }
 
     public function get_guid() {

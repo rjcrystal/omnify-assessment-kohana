@@ -25,7 +25,7 @@ return [
 			 */
 			'hostname'   => 'localhost',
 			'database'   => 'omnify',
-			'username'   => getenv('USERNAME'),
+			'username'   => getenv('MYSQL_USER'),
 			'password'   => getenv('PASSWORD'),
 			'persistent' => FALSE,
 			'ssl'        => NULL,
