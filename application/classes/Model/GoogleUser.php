@@ -12,7 +12,7 @@ class Model_GoogleUser extends ORM
         $service = new Google_Service_Calendar($client);
         $calendarId = 'primary';
         $optParams = array(
-            'maxResults' => 5,
+            'maxResults' => 20,
             'orderBy' => 'startTime',
             'singleEvents' => true,
             'timeMin' => date('c'),
