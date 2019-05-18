@@ -27,24 +27,33 @@ class Model_GoogleUser extends ORM
 
     public function enable_calendar_watch()
     {
+        $log = Log::instance();
+
         $client = new Client();
         $header = array("Authorization"=>"Bearer " . $this->get('access_token'));
-        $response = $client->request('POST', 'https://www.googleapis.com/calendar/v3/calendars/primary/events/watch', [
-            'form_params' => [
-                'id' => $this->get_guid(),
-                'type' => 'web_hook',
-                'address'=> WEBHOOK_URL,
-                'token'=>$this->get_guid(),
-            ],
-            'headers'=>$header
-        ]);
+
+        try{
+            $response = $client->request('POST', 'https://www.googleapis.com/calendar/v3/calendars/primary/events/watch', [
+                'form_params' => [
+                    'id' => $this->get_guid(),
+                    'type' => 'web_hook',
+                    'address'=> WEBHOOK_URL,
+                    'token'=>$this->get_guid(),
+                ],
+                'headers'=>$header
+            ]);
+        }
+        catch (\GuzzleHttp\Exception\ClientException $exception)
+        {
+            $log->add(Log::ERROR,$exception->getResponse()->getBody()->getContents());
+        }
+
         if($response->getStatusCode()==200)
         {
             $body = json_decode($response->getBody(),true);
             $this->set('resource_id',$body['resourceId']);
             $this->save();
         }
-        $log = Log::instance();
         $log->add(Log::INFO,json_encode($response->getBody()));
     }
 
