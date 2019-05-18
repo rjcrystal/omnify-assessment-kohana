@@ -174,5 +174,6 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'action'     => 'index',
 	]);
 
-define('REDIRECT_URL',"http://".getenv('SERVERNAME')."/redirect");
-define('WEBHOOK_URL',"https://helloworldpeople.xyz/events/webhook");
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+define('REDIRECT_URL',$protocol.getenv('SERVERNAME')."/redirect");
+define('WEBHOOK_URL',$protocol."helloworldpeople.xyz/events/webhook");

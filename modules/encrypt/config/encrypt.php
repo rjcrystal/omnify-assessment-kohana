@@ -12,7 +12,7 @@ return [
 		 */
         'type'   => 'openssl',
         'cipher' => 'AES-256-CBC',
-		'mode' => MCRYPT_MODE_NOFB,
+		'mode' => 'MCRYPT_MODE_NOFB',
         'key'=>getenv('ENCRYPTION_KEY')
 	],
 
