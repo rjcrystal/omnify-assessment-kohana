@@ -45,7 +45,7 @@ class Controller_Events extends Controller {
         $resource_id = $headers['X-Goog-Resource-Id'];
         $state = $headers['X-Goog-Resource-State'];
         $log = Log::instance();
-        $log->add(Log::INFO,$headers);
+        $log->add(Log::INFO,json_encode($headers));
         if(!empty($resource_id) && $state=='exists')
         {
             $user = ORM::factory('GoogleUser')

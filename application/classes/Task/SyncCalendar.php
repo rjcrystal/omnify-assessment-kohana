@@ -19,17 +19,17 @@ class Task_SyncCalendar extends Minion_Task
             $userRefreshToken = $user->get('refresh_token');
             if (!empty($userAccessToken)) {
                 try {
-                $token = ['expires_in' => 3600, 'access_token' => $userAccessToken];
-                $client->setAccessToken(json_encode($token));
-                if ($client->isAccessTokenExpired() && !empty($userRefreshToken)) {
-                    $userAccessToken = $client->fetchAccessTokenWithRefreshToken($userRefreshToken);
+                    $token = ['expires_in' => 3600, 'access_token' => $userAccessToken];
+                    $client->setAccessToken(json_encode($token));
+                    if ($client->isAccessTokenExpired() && !empty($userRefreshToken)) {
+                        $userAccessToken = $client->fetchAccessTokenWithRefreshToken($userRefreshToken);
+                    }
+                    $client->setAccessToken($userAccessToken);
+                    $user->sync_calender_events($client);
+                    $user->set('needs_events_refresh', 0);
+                    $user->save();
                 }
-                $client->setAccessToken($userAccessToken);
-                $user->sync_calender_events($client);
-                $user->set('needs_events_refresh', 0);
-                $user->save();
-
-                } catch (Exception $exception) {
+                catch (Exception $exception) {
                     $log = Log::instance();
                     $log->add(Log::ERROR, $exception->getTraceAsString());
                 }
