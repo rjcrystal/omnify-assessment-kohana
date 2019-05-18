@@ -28,7 +28,7 @@ class Task_SyncCalendar extends Minion_Task
                     $user->sync_calender_events($client);
                     $user->set('needs_events_refresh', 0);
                     $user->save();
-                } catch (Google_Exception $exception) {
+                } catch (Exception $exception) {
                     $log = Log::instance();
                     $log->add(Log::ERROR, $exception->getTraceAsString());
                 }
